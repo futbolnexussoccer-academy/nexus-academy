@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Nexus Soccer Elite - Academy</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=1IpRAayL0zOpX6lBYy0Npy7HuivozRT1p&sz=w100">
     <style>
@@ -16,19 +16,60 @@
             --text-main: #FAFAFA;
             --text-muted: #888888;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body { background-color: var(--bg-deep); color: var(--text-main); font-family: 'Montserrat', sans-serif; height: 100vh; overflow: hidden; background-image: radial-gradient(var(--glass-border) 1px, transparent 1px); background-size: 30px 30px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-deep); color: var(--text-main); font-family: 'Montserrat', sans-serif; height: 100vh; overflow: hidden; width: 100vw; }
         
-        /* LOGIN */
-        .gatekeeper-overlay { position: fixed; inset: 0; background: black; z-index: 10000; display: flex; align-items: center; justify-content: center; }
-        .login-box { width: 380px; padding: 40px; background: #111; border: 1px solid var(--gold-primary); border-radius: 20px; text-align: center; box-shadow: 0 0 30px rgba(212, 175, 55, 0.1); }
-        .input-field { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #333; color: white; border-radius: 8px; outline: none; }
+        /* LOGIN RESPONSIVE */
+        .gatekeeper-overlay { position: fixed; inset: 0; background: black; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-box { width: 100%; max-width: 380px; padding: 30px; background: #111; border: 1px solid var(--gold-primary); border-radius: 20px; text-align: center; }
+        .input-field { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #333; color: white; border-radius: 8px; outline: none; font-size: 16px; }
 
         /* APP LAYOUT */
-        .app-wrapper { display: flex; height: 100vh; width: 100vw; }
-        .sidebar { width: 300px; background: #111; border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; overflow-y: auto; }
-        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; background: #111; z-index: 10; }
-        .logo-img { max-width: 100px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
+        .app-wrapper { display: flex; height: 100vh; width: 100vw; position: relative; }
+        
+        /* SIDEBAR DINÁMICA */
+        .sidebar { 
+            width: 300px; 
+            background: #111; 
+            border-right: 1px solid var(--glass-border); 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.3s ease;
+            z-index: 5000;
+        }
+
+        /* BOTÓN MENÚ MÓVIL */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 6000;
+            background: var(--gold-primary);
+            color: black;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* AJUSTES MÓVIL */
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .sidebar { 
+                position: absolute; 
+                height: 100%; 
+                transform: translateX(-100%); 
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main-area { padding-top: 60px !important; }
+        }
+
+        .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid var(--glass-border); }
+        .logo-img { max-width: 90px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
         
         .drawer-btn { width: 100%; padding: 15px; background: transparent; border: none; color: #ccc; cursor: pointer; text-align: left; border-bottom: 1px solid #222; font-weight: 600; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
         .nav-link { padding: 12px 20px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; border-left: 2px solid transparent; transition: 0.2s; }
@@ -36,34 +77,30 @@
         .nav-link.active { color: var(--gold-primary); border-left: 2px solid var(--gold-primary); background: rgba(212, 175, 55, 0.05); }
 
         /* MAIN AREA */
-        .main-area { flex: 1; padding: 25px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        .content-frame { flex: 1; background: black; border-radius: 15px; border: 1px solid #333; position: relative; overflow: hidden; }
+        .main-area { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .content-frame { flex: 1; background: black; border-radius: 10px; border: 1px solid #333; position: relative; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* BOTONES PREMIUM */
-        .btn-action { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color: black; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: 0.3s; }
-        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+        .btn-action { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color: black; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: 0.3s; width: 100%; }
 
-        .viewer-tabs { display: flex; gap: 15px; margin-bottom: 15px; }
-        .tab-btn { padding: 10px 22px; background: rgba(255, 255, 255, 0.03); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        .viewer-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 10px; background: rgba(255, 255, 255, 0.03); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
         .tab-btn.active { background: var(--gold-primary); color: #000; border-color: var(--gold-primary); }
 
-        /* MODAL POTENTE */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-content { background: #111; border: 2px solid var(--gold-primary); border-radius: 24px; max-width: 500px; width: 100%; padding: 40px; position: relative; }
-        .modal-title { color: var(--gold-primary); font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; text-align: center; }
-        .benefit-item { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: #eee; font-size: 0.9rem; }
-        .check-icon { color: var(--success-green); font-weight: bold; font-size: 1.2rem; }
+        /* FOOTER SIDEBAR MÓVIL OPTIMIZADO */
+        .footer-sidebar { margin-top: auto; padding: 15px; border-top: 1px solid #222; display: flex; flex-direction: column; gap: 8px; background: #111; }
+        .upgrade-link { color: var(--success-green); text-decoration: none; font-weight: 700; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--success-green); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; }
+        .support-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid #333; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; }
 
         /* WATERMARK */
-        .watermark-layer { position: fixed; inset: -50%; pointer-events: none; z-index: 9000; display: flex; flex-wrap: wrap; transform: rotate(-30deg); opacity: 0.03; overflow: hidden; }
-        .wm-item { margin: 100px; font-size: 1.1rem; font-weight: 800; white-space: nowrap; }
+        .watermark-layer { position: fixed; inset: -50%; pointer-events: none; z-index: 9000; display: flex; flex-wrap: wrap; transform: rotate(-30deg); opacity: 0.02; overflow: hidden; }
+        .wm-item { margin: 80px; font-size: 1rem; font-weight: 800; white-space: nowrap; }
 
-        .footer-sidebar { margin-top: auto; padding: 20px; border-top: 1px solid #222; display: flex; flex-direction: column; gap: 10px; }
-        .upgrade-link { color: var(--success-green); text-decoration: none; font-weight: 700; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--success-green); padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .upgrade-link:hover { background: rgba(46, 204, 113, 0.1); }
-        .support-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #333; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .support-btn:hover { border-color: var(--gold-primary); color: var(--gold-primary); }
+        /* MODAL */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(5px); }
+        .modal-content { background: #111; border: 2px solid var(--gold-primary); border-radius: 20px; max-width: 450px; width: 100%; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .benefit-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #eee; font-size: 0.85rem; }
+        .check-icon { color: var(--success-green); font-weight: bold; }
     </style>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -72,13 +109,13 @@
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState } = React;
-        const ACCESS_PASSWORD = "NEXUS"; 
+        const { useState, useEffect } = React;
+        const ACCESS_PASSWORD = "NEXUS.2026"; 
         const WA_LINK = "https://wa.me/34634534700";
         const LOGO = "https://drive.google.com/thumbnail?id=1IpRAayL0zOpX6lBYy0Npy7HuivozRT1p&sz=w1000";
 
         const courseData = [
-            { id: 'm0', title: 'Módulo 0. Presentación Profesores', lessons: [{ id: 'l0', title: 'Equipo Docente y CVs', videoUrl: 'PENDIENTE', pdfUrl: 'https://drive.google.com/file/d/1pmeVtjYGgmpNAFjHomv0B53_FlNpRNLd/preview' }] },
+            { id: 'm0', title: 'Módulo 0. Presentación Profesores', lessons: [{ id: 'l0', title: 'Equipo Docente y CVs', videoUrl: 'https://drive.google.com/file/d/1Xl2jQO81Yj058vP0V5-n1M_3p28fM_tG/preview', pdfUrl: 'https://drive.google.com/file/d/1pmeVtjYGgmpNAFjHomv0B53_FlNpRNLd/preview' }] },
             { id: 'm1', title: 'Módulo 1. Primeras Pinceladas', lessons: [
                 { id: 'l1', title: '1. Introducción', videoUrl: 'https://drive.google.com/file/d/1m6B6AyOBSBnNRhTxWrciWiF-ctNSpOsB/preview', pdfUrl: 'https://drive.google.com/file/d/1zOD0Mf4J_iHIG5Iu6cdnUb1bPBV66rCH/preview' },
                 { id: 'l2', title: '2. Las 3 dimensiones del juego', videoUrl: 'https://drive.google.com/file/d/11i_NQp89VYm0SqZcd3YrlpY8pjaK7j2T/preview', pdfUrl: 'https://drive.google.com/file/d/1NwEYE0v11VdKS_9FsWnkQXWKoCuvSXRy/preview' },
@@ -142,6 +179,7 @@
             const [currentLesson, setCurrentLesson] = useState(null);
             const [contentType, setContentType] = useState('video');
             const [showModal, setShowModal] = useState(false);
+            const [sidebarOpen, setSidebarOpen] = useState(false);
             const [completedIds, setCompletedIds] = useState(() => {
                 const saved = localStorage.getItem('nexus_final_v5');
                 return new Set(saved ? JSON.parse(saved) : []);
@@ -165,11 +203,11 @@
                 <div className="gatekeeper-overlay">
                     <div className="login-box">
                         <img src={LOGO} className="logo-img" alt="Logo" />
-                        <h2 style={{color: '#D4AF37', marginBottom: '20px'}}>NEXUS ACADEMY</h2>
+                        <h2 style={{color: '#D4AF37', marginBottom: '20px', fontSize: '1.2rem'}}>NEXUS ACADEMY</h2>
                         <form onSubmit={handleLogin}>
                             <input className="input-field" placeholder="Nombre y Apellido" onChange={e => setStudentName(e.target.value)} required />
                             <input className="input-field" type="password" placeholder="Clave Acceso" onChange={e => setPassInput(e.target.value)} required />
-                            <button className="btn-action" style={{width: '100%'}}>ENTRAR</button>
+                            <button className="btn-action">ENTRAR</button>
                         </form>
                     </div>
                 </div>
@@ -178,35 +216,40 @@
             return (
                 <div className="app-wrapper">
                     <div className="watermark-layer">
-                        {Array(10).fill(studentName).map((n, i) => <div key={i} className="wm-item">{n.toUpperCase()} - NEXUS</div>)}
+                        {Array(8).fill(studentName).map((n, i) => <div key={i} className="wm-item">{n.toUpperCase()} - NEXUS</div>)}
                     </div>
+                    
                     {showModal && (
                         <div className="modal-overlay">
                             <div className="modal-content">
-                                <span style={{position:'absolute',top:'20px',right:'25px',cursor:'pointer',fontSize:'1.8rem'}} onClick={()=>setShowModal(false)}>×</span>
-                                <div className="modal-title">NEXUS NIVEL ÉLITE. Interacción directa con nuestros profesores en cada módulo.</div>
+                                <span style={{position:'absolute',top:'15px',right:'20px',cursor:'pointer',fontSize:'1.5rem'}} onClick={()=>setShowModal(false)}>×</span>
+                                <div style={{color: '#D4AF37', fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '15px'}}>NEXUS NIVEL ÉLITE</div>
                                 <div className="benefit-item"><span className="check-icon">✓</span> <span>8 clases online en Vivo.</span></div>
                                 <div className="benefit-item"><span className="check-icon">✓</span> <span>Más de 32 horas de formación.</span></div>
                                 <div className="benefit-item"><span className="check-icon">✓</span> <span>Feedback de tareas y proyectos tácticos.</span></div>
                                 <div className="benefit-item"><span className="check-icon">✓</span> <span>Certificación Oficial Nexus Soccer.</span></div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Autoevaluaciones para afianzar conociminentos.</span></div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Únicamente 10 plazas para mantener la cálidad de las clases</span></div>
-                                <div style={{textAlign:'center', marginTop: '30px'}}>
-                                    <div style={{color: '#D4AF37', fontSize: '1.3rem', fontWeight: 'bold', marginBottom: '15px'}}>400€</div>
-                                    <a href={WA_LINK + "?text=Hola,%20quiero%20reservar%20mi%20plaza%20en%20Nivel%20Elite"} target="_blank" className="btn-action" style={{textDecoration:'none', display:'block'}}>RESERVAR PLAZA AHORA</a>
+                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Únicamente 10 plazas por grupo.</span></div>
+                                <div style={{textAlign:'center', marginTop: '20px'}}>
+                                    <div style={{color: '#D4AF37', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '10px'}}>400€</div>
+                                    <a href={WA_LINK + "?text=Hola,%20quiero%20reservar%20mi%20plaza%20en%20Nivel%20Elite"} target="_blank" className="btn-action" style={{textDecoration:'none', display:'block'}}>RESERVAR PLAZA</a>
                                 </div>
                             </div>
                         </div>
                     )}
-                    <nav className="sidebar">
+
+                    <button className="mobile-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                        {sidebarOpen ? 'CERRAR X' : 'MENÚ ☰'}
+                    </button>
+
+                    <nav className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
                         <div className="sidebar-header"><img src={LOGO} className="logo-img" /></div>
-                        <div style={{flex:1}}>
+                        <div style={{flex: 1, overflowY: 'auto'}}>
                             {courseData.map(m => (
                                 <div key={m.id}>
                                     <button className="drawer-btn" onClick={() => setActiveModule(activeModule === m.id ? null : m.id)}>{m.title} <span>{activeModule === m.id ? '▾' : '▸'}</span></button>
                                     {activeModule === m.id && m.lessons.map(l => {
                                         const locked = isLocked(l.id);
-                                        return <div key={l.id} className={`nav-link ${locked ? 'locked' : ''} ${currentLesson?.id === l.id ? 'active' : ''}`} onClick={() => !locked && setCurrentLesson(l)}>{completedIds.has(l.id) ? '✅ ' : (locked ? '🔒 ' : '○ ')} {l.title}</div>
+                                        return <div key={l.id} className={`nav-link ${locked ? 'locked' : ''} ${currentLesson?.id === l.id ? 'active' : ''}`} onClick={() => { if(!locked) { setCurrentLesson(l); setSidebarOpen(false); } }}>{completedIds.has(l.id) ? '✅ ' : (locked ? '🔒 ' : '○ ')} {l.title}</div>
                                     })}
                                 </div>
                             ))}
@@ -216,10 +259,11 @@
                             <div onClick={()=>setShowModal(true)} className="upgrade-link">🚀 NIVEL ÉLITE (400€)</div>
                         </div>
                     </nav>
+
                     <main className="main-area">
                         {currentLesson ? (
                             <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
-                                <h2 style={{marginBottom: '15px', color: '#D4AF37', fontSize:'1.1rem'}}>{currentLesson.title}</h2>
+                                <h2 style={{marginBottom: '10px', color: '#D4AF37', fontSize:'0.9rem'}}>{currentLesson.title}</h2>
                                 <div className="viewer-tabs">
                                     <button className={`tab-btn ${contentType === 'video' ? 'active' : ''}`} onClick={() => setContentType('video')}>VIDEO</button>
                                     <button className={`tab-btn ${contentType === 'pdf' ? 'active' : ''}`} onClick={() => setContentType('pdf')}>PDF</button>
@@ -227,16 +271,16 @@
                                 <div className="content-frame">
                                     <iframe src={contentType === 'video' ? currentLesson.videoUrl : currentLesson.pdfUrl} allow="autoplay"></iframe>
                                 </div>
-                                <div style={{display:'flex', justifyContent:'flex-end'}}>
-                                    <button className="btn-action" onClick={() => {
+                                <div style={{textAlign: 'right'}}>
+                                    <button className="btn-action" style={{padding: '8px 15px', fontSize: '0.7rem', width: 'auto'}} onClick={() => {
                                         const newSet = new Set(completedIds);
                                         if (newSet.has(currentLesson.id)) newSet.delete(currentLesson.id); else newSet.add(currentLesson.id);
                                         setCompletedIds(newSet);
                                         localStorage.setItem('nexus_final_v5', JSON.stringify([...newSet]));
-                                    }}>{completedIds.has(currentLesson.id) ? 'DESMARCAR' : 'LECCIÓN COMPLETADA ✅'}</button>
+                                    }}>{completedIds.has(currentLesson.id) ? 'DESMARCAR' : 'COMPLETADA ✅'}</button>
                                 </div>
                             </div>
-                        ) : (<div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.1}}><h1>NEXUS SOCCER</h1></div>)}
+                        ) : (<div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.1, textAlign:'center'}}><h1>NEXUS SOCCER ACADEMY</h1></div>)}
                     </main>
                 </div>
             );
