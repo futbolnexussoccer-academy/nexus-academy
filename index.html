@@ -16,18 +16,16 @@
             --text-main: #FAFAFA;
             --text-muted: #888888;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-deep); color: var(--text-main); font-family: 'Montserrat', sans-serif; height: 100vh; overflow: hidden; width: 100vw; }
         
-        /* LOGIN RESPONSIVE */
         .gatekeeper-overlay { position: fixed; inset: 0; background: black; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .login-box { width: 100%; max-width: 380px; padding: 30px; background: #111; border: 1px solid var(--gold-primary); border-radius: 20px; text-align: center; }
         .input-field { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #333; color: white; border-radius: 8px; outline: none; font-size: 16px; }
 
-        /* APP LAYOUT */
         .app-wrapper { display: flex; height: 100vh; width: 100vw; position: relative; }
         
-        /* SIDEBAR DINÁMICA */
+        /* SIDEBAR OPTIMIZADA */
         .sidebar { 
             width: 300px; 
             background: #111; 
@@ -36,9 +34,9 @@
             flex-direction: column; 
             transition: transform 0.3s ease;
             z-index: 5000;
+            height: 100%;
         }
 
-        /* BOTÓN MENÚ MÓVIL */
         .mobile-toggle {
             display: none;
             position: fixed;
@@ -52,55 +50,60 @@
             border-radius: 5px;
             font-weight: 700;
             font-size: 0.8rem;
-            cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        /* AJUSTES MÓVIL */
         @media (max-width: 768px) {
             .mobile-toggle { display: block; }
-            .sidebar { 
-                position: absolute; 
-                height: 100%; 
-                transform: translateX(-100%); 
-            }
+            .sidebar { position: absolute; transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .main-area { padding-top: 60px !important; }
         }
 
-        .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid var(--glass-border); }
-        .logo-img { max-width: 90px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
+        .sidebar-header { padding: 20px; text-align: center; flex-shrink: 0; border-bottom: 1px solid var(--glass-border); }
+        .logo-img { max-width: 80px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
         
-        .drawer-btn { width: 100%; padding: 15px; background: transparent; border: none; color: #ccc; cursor: pointer; text-align: left; border-bottom: 1px solid #222; font-weight: 600; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
-        .nav-link { padding: 12px 20px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; border-left: 2px solid transparent; transition: 0.2s; }
-        .nav-link.locked { opacity: 0.3; cursor: not-allowed; }
+        /* CONTENEDOR DE LECCIONES CON SCROLL PROPIO */
+        .modules-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 10px;
+        }
+
+        .drawer-btn { width: 100%; padding: 14px; background: transparent; border: none; color: #ccc; cursor: pointer; text-align: left; border-bottom: 1px solid #222; font-weight: 600; font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav-link { padding: 10px 20px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; border-left: 2px solid transparent; }
+        .nav-link.locked { opacity: 0.3; }
         .nav-link.active { color: var(--gold-primary); border-left: 2px solid var(--gold-primary); background: rgba(212, 175, 55, 0.05); }
 
-        /* MAIN AREA */
-        .main-area { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        .content-frame { flex: 1; background: black; border-radius: 10px; border: 1px solid #333; position: relative; overflow: hidden; }
+        .main-area { flex: 1; padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
+        .content-frame { flex: 1; background: black; border-radius: 10px; border: 1px solid #333; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; }
 
-        .btn-action { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color: black; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: 0.3s; width: 100%; }
+        .btn-action { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color: black; border: none; padding: 12px; border-radius: 25px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; }
 
-        .viewer-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 10px; background: rgba(255, 255, 255, 0.03); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .viewer-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+        .tab-btn { flex: 1; padding: 8px; background: rgba(255, 255, 255, 0.03); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
         .tab-btn.active { background: var(--gold-primary); color: #000; border-color: var(--gold-primary); }
 
-        /* FOOTER SIDEBAR MÓVIL OPTIMIZADO */
-        .footer-sidebar { margin-top: auto; padding: 15px; border-top: 1px solid #222; display: flex; flex-direction: column; gap: 8px; background: #111; }
-        .upgrade-link { color: var(--success-green); text-decoration: none; font-weight: 700; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--success-green); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; }
-        .support-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid #333; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; }
+        /* FOOTER FIJO AL FINAL DE LA SIDEBAR */
+        .footer-sidebar { 
+            padding: 15px; 
+            border-top: 1px solid #222; 
+            background: #111; 
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .upgrade-link { color: var(--success-green); text-decoration: none; font-weight: 700; font-size: 0.65rem; border: 1px solid var(--success-green); padding: 10px; border-radius: 8px; text-align: center; }
+        .support-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.65rem; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align: center; }
 
-        /* WATERMARK */
-        .watermark-layer { position: fixed; inset: -50%; pointer-events: none; z-index: 9000; display: flex; flex-wrap: wrap; transform: rotate(-30deg); opacity: 0.02; overflow: hidden; }
-        .wm-item { margin: 80px; font-size: 1rem; font-weight: 800; white-space: nowrap; }
+        .watermark-layer { position: fixed; inset: -50%; pointer-events: none; z-index: 9000; display: flex; flex-wrap: wrap; transform: rotate(-30deg); opacity: 0.02; }
+        .wm-item { margin: 80px; font-size: 1rem; font-weight: 800; }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(5px); }
-        .modal-content { background: #111; border: 2px solid var(--gold-primary); border-radius: 20px; max-width: 450px; width: 100%; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
-        .benefit-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #eee; font-size: 0.85rem; }
-        .check-icon { color: var(--success-green); font-weight: bold; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-content { background: #111; border: 2px solid var(--gold-primary); border-radius: 20px; max-width: 400px; width: 100%; padding: 25px; position: relative; }
+        .benefit-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #eee; font-size: 0.8rem; }
     </style>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -109,8 +112,8 @@
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState, useEffect } = React;
-        const ACCESS_PASSWORD = "NEXUS.2026"; 
+        const { useState } = React;
+        const ACCESS_PASSWORD = "Elite.2026"; 
         const WA_LINK = "https://wa.me/34634534700";
         const LOGO = "https://drive.google.com/thumbnail?id=1IpRAayL0zOpX6lBYy0Npy7HuivozRT1p&sz=w1000";
 
@@ -121,7 +124,7 @@
                 { id: 'l2', title: '2. Las 3 dimensiones del juego', videoUrl: 'https://drive.google.com/file/d/11i_NQp89VYm0SqZcd3YrlpY8pjaK7j2T/preview', pdfUrl: 'https://drive.google.com/file/d/1NwEYE0v11VdKS_9FsWnkQXWKoCuvSXRy/preview' },
                 { id: 'l3', title: '3. Análisis de interacción', videoUrl: 'https://drive.google.com/file/d/1F_OMwK8tnZMv0cYFQbd5o79e5CUvTqYr/preview', pdfUrl: 'https://drive.google.com/file/d/1PgRn4upsoLi3OIOZ-T-17XM_v0uTrmUs/preview' }
             ]},
-            { id: 'm2', title: 'Módulo 2. La Técnica. El Cajón 1 del Fútbol', lessons: [
+            { id: 'm2', title: 'Módulo 2. El Cajón 1 del Fútbol', lessons: [
                 { id: 'l4', title: '1. La técnica en el fútbol', videoUrl: 'https://drive.google.com/file/d/1dX2vNZ1N9gyfhJ2xlAXJTDB8bQLVMEoc/preview', pdfUrl: 'https://drive.google.com/file/d/1Nh55x_eam4xQ0ktjYg_X24ko5qXjy8od/preview' },
                 { id: 'l5', title: '2. La técnica individual ofensiva', videoUrl: 'https://drive.google.com/file/d/11rpxoY5Y5JbLFhDK7PokGCgS6SC2VSXC/preview', pdfUrl: 'https://drive.google.com/file/d/19BSoui5DYmB1S5DND9bdX59S5wHQQpxo/preview' },
                 { id: 'l6', title: '3. La técnica individual defensiva', videoUrl: 'https://drive.google.com/file/d/1JHJ67q5UqbAunqxoQFxfFAc-iQcw2NTL/preview', pdfUrl: 'https://drive.google.com/file/d/1yveGb0Ih0eKr6g2AKwwSeNKPo6CtX8Xx/preview' },
@@ -131,7 +134,7 @@
                 { id: 'l10', title: '7. La planificación técnica', videoUrl: 'https://drive.google.com/file/d/1Pt-IEaMrGTx8-whT5wQhtcsHeH2yRhTJ/preview', pdfUrl: 'https://drive.google.com/file/d/1qkDkdYDzuWbW9mIVVjCwOMciEALd5nO/preview' },
                 { id: 'l11', title: '8. Ejemplos de Ejercicios del Cajón 1', videoUrl: 'https://drive.google.com/file/d/1hb6oBbydbnx4iEv4hykNvWacISN-lLwX/preview', pdfUrl: 'https://drive.google.com/file/d/1jXqzg5i2PJ9e-J5Mie2jd0lhMNyBBDKf/preview' }
             ]},
-            { id: 'm3', title: 'Módulo 3. En el Juego. El Cajón 2', lessons: [
+            { id: 'm3', title: 'Módulo 3. El Cajón 2', lessons: [
                 { id: 'l12', title: '1. El Modelo de Juego', videoUrl: 'https://drive.google.com/file/d/1wD5OSMysXroHAMXVEClk53b5O0_jbx9A/preview', pdfUrl: 'https://drive.google.com/file/d/12h-WsUrFfoMdkIrHAna0EsuvcEMtdspN/preview' },
                 { id: 'l13', title: '2. El modelo de Entrenamiento', videoUrl: 'https://drive.google.com/file/d/1gmf-Rk0sK_g8CDxj3jkaWvXQkjukJz5Y/preview', pdfUrl: 'https://drive.google.com/file/d/1VweDCUPnNTcdQ2EdR5By5A5uBO1IqO-K/preview' },
                 { id: 'l14', title: '3. Planificando. Del Macrociclo al Microciclo', videoUrl: 'https://drive.google.com/file/d/1uK9hzDcKQ7vANEQRyNx04o1V2z58eZFL/preview', pdfUrl: 'https://drive.google.com/file/d/1T8YRlk66XPWFJtqr482c5y7Dq2AkSjWN/preview' },
@@ -140,31 +143,31 @@
                 { id: 'l17', title: '6. Planificando. Ejercicios y tareas', videoUrl: 'https://drive.google.com/file/d/1hIvcBhm9LwLuhUMO97HN-1J6iYusp-la/preview', pdfUrl: 'https://drive.google.com/file/d/1rihDs4374QgI6D4fkBs7tTT3gh8aexuE/preview' },
                 { id: 'l18', title: '7. Ejemplos de Ejercicios del Cajón 2', videoUrl: 'https://drive.google.com/file/d/1DCLrd1sHyA07ojNim8DKVrT9rpDMrHX-/preview', pdfUrl: 'https://drive.google.com/file/d/1Rq4QeKGW8fv6i9uC7caML_1Wh0KQdvUd/preview' }
             ]},
-            { id: 'm4', title: 'Módulo 4. La emoción del Fútbol. El Cajón 3', lessons: [
+            { id: 'm4', title: 'Módulo 4. El Cajón 3', lessons: [
                 { id: 'l19', title: '1. Fundamentos tácticos', videoUrl: 'https://drive.google.com/file/d/1_ek8a9K8sfQbyxLx6fpfnD8z_GwAKNz_/preview', pdfUrl: 'https://drive.google.com/file/d/1QcYAhW28Q4NFxAEjrrP2ncBlESL0nexa/preview' },
                 { id: 'l20', title: '2. El sistema de Juego 1-4-3-3 y sus variantes', videoUrl: 'https://drive.google.com/file/d/1PqpIdGS7z3ZZq9T-jGu5cfEiFh_ORujz/preview', pdfUrl: 'https://drive.google.com/file/d/1JRlT_gp5htPMd_8vDv6j2a9B85ZvlX6j/preview' },
                 { id: 'l21', title: '3. Sistemas de juego modernos', videoUrl: 'https://drive.google.com/file/d/1t8tqLE98EUiZnlagg0EHCZhZkABnT9z7/preview', pdfUrl: 'https://drive.google.com/file/d/1Hc0OnaJOC3nYcXzjJHg0dUpZAHtpBRpA/preview' },
                 { id: 'l22', title: '4. De sistemas a estructuras', videoUrl: 'https://drive.google.com/file/d/1_T8ZCs6pusgaB0F21xQbhFe9RDyMi_dc/preview', pdfUrl: 'https://drive.google.com/file/d/1hBqceIpX5nrcgpNEnMjMeRkLxH8xt9V_/preview' },
                 { id: 'l23', title: '5. Ejemplos de ejercicios del Cajón 3', videoUrl: 'https://drive.google.com/file/d/1biX40FOyN5Z9ExcOQP0g8waV2bh_53ke/preview', pdfUrl: 'https://drive.google.com/file/d/1af6lAByRmSJoZilqm5sGcHMK5auDi3wg/preview' }
             ]},
-            { id: 'm5', title: 'Módulo 5. Preparación Física', lessons: [
+            { id: 'm5', title: 'Módulo 5. Prep. Física', lessons: [
                 { id: 'l24', title: '1. Introducción', videoUrl: 'https://drive.google.com/file/d/1SxMSNkjNZAU-TEtnuUq_MQIO9wt1lmWZ/preview', pdfUrl: 'https://drive.google.com/file/d/1jX4kGN__GL76aaaCxcf5GycoqJFGRf3w/preview' },
                 { id: 'l25', title: '2. Planificación y programación', videoUrl: 'https://drive.google.com/file/d/1K74B1mWcG0IkOzK1CdSUQ5qiVrsRvSmU/preview', pdfUrl: 'https://drive.google.com/file/d/1YL-TYidfu5TnTIelvoGm14dcJ2Tz_lXj/preview' },
                 { id: 'l26', title: '3. El Juego Reducido', videoUrl: 'https://drive.google.com/file/d/1KbBH1Urg4jWdBizX7dyNnSvJGM-YheY3/preview', pdfUrl: 'https://drive.google.com/file/d/1G-Y3_jKMr0-Rmx8J-C7OmGaZhNEkTEQO/preview' },
-                { id: 'l27', title: '4. Entrenamiento individualizado. La Fuerza', videoUrl: 'https://drive.google.com/file/d/1jiNnjswIc6GIXb-s0KjRG8mR481rEVxO/preview', pdfUrl: 'https://drive.google.com/file/d/1jdpHdRidKR7Y7p3zvexugopSLCo_GsKs/preview' },
+                { id: 'l27', title: '4. Entr. individualizado. La Fuerza', videoUrl: 'https://drive.google.com/file/d/1jiNnjswIc6GIXb-s0KjRG8mR481rEVxO/preview', pdfUrl: 'https://drive.google.com/file/d/1jdpHdRidKR7Y7p3zvexugopSLCo_GsKs/preview' },
                 { id: 'l28', title: '5. La Fuerza en el Portero', videoUrl: 'https://drive.google.com/file/d/1zBHiEIUTzJJgouhpE4t_i5A_Kysc01eW/preview', pdfUrl: 'https://drive.google.com/file/d/1ku4AM2zGb7vXc9mvWj0UmyK12MHKAMJ3/preview' },
                 { id: 'l29', title: '6. Entrenamiento preventivo', videoUrl: 'https://drive.google.com/file/d/1Ek3TjcfYg6KLVs_S28l7d-hY6753yneo/preview', pdfUrl: 'https://drive.google.com/file/d/1kGcIHWTroR5gp2PhqpuzhOHxXXNDnfGx/preview' },
-                { id: 'l30', title: '7. Cuantificación de las cargas. Microciclo semanal', videoUrl: 'https://drive.google.com/file/d/12QbF0_C9soJ01OHzBLTfGksKUvIc5xD0/preview', pdfUrl: 'https://drive.google.com/file/d/1ZQwSR9LGExjWYgTc556ZNTJ6B9bj9Jvo/preview' }
+                { id: 'l30', title: '7. Cuantificación de las cargas', videoUrl: 'https://drive.google.com/file/d/12QbF0_C9soJ01OHzBLTfGksKUvIc5xD0/preview', pdfUrl: 'https://drive.google.com/file/d/1ZQwSR9LGExjWYgTc556ZNTJ6B9bj9Jvo/preview' }
             ]},
             { id: 'm6', title: 'Módulo 6. Apoyo', lessons: [
                 { id: 'l31', title: '1. Modelos de enseñanza', videoUrl: 'https://drive.google.com/file/d/1zyJd9m_qX7NIlH990K7bV3pXMPod-ajx/preview', pdfUrl: 'https://drive.google.com/file/d/1f2sUF_IPvFKiDKz796WxSV7J7jFxEKWM/preview' },
                 { id: 'l32', title: '2. El proceso comunicativo', videoUrl: 'https://drive.google.com/file/d/1FlUWAE1Wkxdt5UXDX40eLCUg4irQwswl/preview', pdfUrl: 'https://drive.google.com/file/d/1bmwP-uj2GCflYih61CV3atVLP5xA246G/preview' },
                 { id: 'l33', title: '3. El videoanálisis en el fútbol', videoUrl: 'https://drive.google.com/file/d/1BUK8JUByYCEEn-M7_M-FP6lrRVTZX6ro/preview', pdfUrl: 'https://drive.google.com/file/d/1SzronDyVTFbKB3p8jBmihkr6d1bFx7vu/preview' },
-                { id: 'l34', title: '4. Los perfiles de Jugador y el Scouting', videoUrl: 'https://drive.google.com/file/d/1H9WeJNhUM5h7OMRHRzOlkFJe8prn94Q/preview', pdfUrl: 'https://drive.google.com/file/d/1lJP2-Fj6I9aDgCmIMXbtfN85zPaBpX1a/preview' }
+                { id: 'l34', title: '4. Los perfiles de Jugador y Scouting', videoUrl: 'https://drive.google.com/file/d/1H9WeJNhUM5h7OMRHRzOlkFJe8prn94Q/preview', pdfUrl: 'https://drive.google.com/file/d/1lJP2-Fj6I9aDgCmIMXbtfN85zPaBpX1a/preview' }
             ]},
             { id: 'm7', title: 'Módulo 7. Academia', lessons: [
                 { id: 'l35', title: '1. Estructura de una Academia', videoUrl: 'https://drive.google.com/file/d/19PehQwEwuS35lW5i_Tk2lhwhCwcFiRvA/preview', pdfUrl: 'https://drive.google.com/file/d/1Ty_x8FAtlwlxGA7uOgNCbK5_eIULnoWV/preview' },
-                { id: 'l36', title: '2. Academias. Ejemplos de éxito', videoUrl: 'https://drive.google.com/file/d/1lZzaz1UbUzbh-Jf74V9QUFhRtrW5EPjS/preview', pdfUrl: 'https://drive.google.com/file/d/1iwELXP3_qY10kkGE1ZKqvV4vDWFvoymz/preview' }
+                { id: 'l36', title: '2. Ejemplos de éxito', videoUrl: 'https://drive.google.com/file/d/1lZzaz1UbUzbh-Jf74V9QUFhRtrW5EPjS/preview', pdfUrl: 'https://drive.google.com/file/d/1iwELXP3_qY10kkGE1ZKqvV4vDWFvoymz/preview' }
             ]}
         ];
 
@@ -202,10 +205,10 @@
             if (!isAuthed) return (
                 <div className="gatekeeper-overlay">
                     <div className="login-box">
-                        <img src={LOGO} className="logo-img" alt="Logo" />
-                        <h2 style={{color: '#D4AF37', marginBottom: '20px', fontSize: '1.2rem'}}>NEXUS ACADEMY</h2>
+                        <img src={LOGO} className="logo-img" />
+                        <h2 style={{color: '#D4AF37', margin: '20px 0', fontSize: '1.1rem'}}>NEXUS ACADEMY</h2>
                         <form onSubmit={handleLogin}>
-                            <input className="input-field" placeholder="Nombre y Apellido" onChange={e => setStudentName(e.target.value)} required />
+                            <input className="input-field" placeholder="Nombre completo" onChange={e => setStudentName(e.target.value)} required />
                             <input className="input-field" type="password" placeholder="Clave Acceso" onChange={e => setPassInput(e.target.value)} required />
                             <button className="btn-action">ENTRAR</button>
                         </form>
@@ -218,20 +221,18 @@
                     <div className="watermark-layer">
                         {Array(8).fill(studentName).map((n, i) => <div key={i} className="wm-item">{n.toUpperCase()} - NEXUS</div>)}
                     </div>
-                    
+
                     {showModal && (
                         <div className="modal-overlay">
                             <div className="modal-content">
                                 <span style={{position:'absolute',top:'15px',right:'20px',cursor:'pointer',fontSize:'1.5rem'}} onClick={()=>setShowModal(false)}>×</span>
-                                <div style={{color: '#D4AF37', fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '15px'}}>NEXUS NIVEL ÉLITE</div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>8 clases online en Vivo.</span></div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Más de 32 horas de formación.</span></div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Feedback de tareas y proyectos tácticos.</span></div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Certificación Oficial Nexus Soccer.</span></div>
-                                <div className="benefit-item"><span className="check-icon">✓</span> <span>Únicamente 10 plazas por grupo.</span></div>
+                                <div style={{color: '#D4AF37', fontSize: '1.1rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '15px'}}>NEXUS NIVEL ÉLITE</div>
+                                <div className="benefit-item">✓ 8 clases online en Vivo.</div>
+                                <div className="benefit-item">✓ Feedback de tareas tácticas.</div>
+                                <div className="benefit-item">✓ Certificación Oficial.</div>
                                 <div style={{textAlign:'center', marginTop: '20px'}}>
-                                    <div style={{color: '#D4AF37', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '10px'}}>400€</div>
-                                    <a href={WA_LINK + "?text=Hola,%20quiero%20reservar%20mi%20plaza%20en%20Nivel%20Elite"} target="_blank" className="btn-action" style={{textDecoration:'none', display:'block'}}>RESERVAR PLAZA</a>
+                                    <div style={{color: '#D4AF37', fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '10px'}}>400€</div>
+                                    <a href={WA_LINK + "?text=Reserva%20Nivel%20Elite"} target="_blank" className="btn-action" style={{textDecoration:'none', display:'block'}}>RESERVAR</a>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +244,8 @@
 
                     <nav className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
                         <div className="sidebar-header"><img src={LOGO} className="logo-img" /></div>
-                        <div style={{flex: 1, overflowY: 'auto'}}>
+                        
+                        <div className="modules-container">
                             {courseData.map(m => (
                                 <div key={m.id}>
                                     <button className="drawer-btn" onClick={() => setActiveModule(activeModule === m.id ? null : m.id)}>{m.title} <span>{activeModule === m.id ? '▾' : '▸'}</span></button>
@@ -254,6 +256,7 @@
                                 </div>
                             ))}
                         </div>
+
                         <div className="footer-sidebar">
                             <a href={WA_LINK} target="_blank" className="support-btn">💬 SOPORTE TÉCNICO</a>
                             <div onClick={()=>setShowModal(true)} className="upgrade-link">🚀 NIVEL ÉLITE (400€)</div>
@@ -263,7 +266,7 @@
                     <main className="main-area">
                         {currentLesson ? (
                             <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
-                                <h2 style={{marginBottom: '10px', color: '#D4AF37', fontSize:'0.9rem'}}>{currentLesson.title}</h2>
+                                <h2 style={{marginBottom: '10px', color: '#D4AF37', fontSize:'0.8rem'}}>{currentLesson.title}</h2>
                                 <div className="viewer-tabs">
                                     <button className={`tab-btn ${contentType === 'video' ? 'active' : ''}`} onClick={() => setContentType('video')}>VIDEO</button>
                                     <button className={`tab-btn ${contentType === 'pdf' ? 'active' : ''}`} onClick={() => setContentType('pdf')}>PDF</button>
@@ -272,7 +275,7 @@
                                     <iframe src={contentType === 'video' ? currentLesson.videoUrl : currentLesson.pdfUrl} allow="autoplay"></iframe>
                                 </div>
                                 <div style={{textAlign: 'right'}}>
-                                    <button className="btn-action" style={{padding: '8px 15px', fontSize: '0.7rem', width: 'auto'}} onClick={() => {
+                                    <button className="btn-action" style={{padding: '8px 15px', fontSize: '0.65rem', width: 'auto'}} onClick={() => {
                                         const newSet = new Set(completedIds);
                                         if (newSet.has(currentLesson.id)) newSet.delete(currentLesson.id); else newSet.add(currentLesson.id);
                                         setCompletedIds(newSet);
@@ -280,7 +283,7 @@
                                     }}>{completedIds.has(currentLesson.id) ? 'DESMARCAR' : 'COMPLETADA ✅'}</button>
                                 </div>
                             </div>
-                        ) : (<div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.1, textAlign:'center'}}><h1>NEXUS SOCCER ACADEMY</h1></div>)}
+                        ) : (<div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.1}}><h1>NEXUS SOCCER</h1></div>)}
                     </main>
                 </div>
             );
