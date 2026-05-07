@@ -139,7 +139,7 @@
         const ALLOWED_HOSTS = ["futbolnexussoccer-academy.github.io", "localhost"]; 
         if (!ALLOWED_HOSTS.some(host => window.location.hostname.includes(host))) {
             document.body.innerHTML = '<div style="background:black;color:white;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:sans-serif;"><div><h1 style="color:#D4AF37;">ACCESO NO AUTORIZADO</h1><p>Dominio no oficial.</p></div></div>';
-            throw new Error("Lock. Violacion de Codigo");
+            throw new Error("Lock");
         }
 
         const { useState, useEffect } = React;
@@ -161,14 +161,14 @@
                 };
             }, []);
 
-            // --- 3. ESTADOS ÚNICOS (Mantenemos tus nombres originales) ---
+            // --- 3. ESTADOS ÚNICOS ---
             const [isAuthed, setIsAuthed] = useState(false);
             const [isDemoUser, setIsDemoUser] = useState(false);
             const [isGKEdition, setIsGKEdition] = useState(false);
             const [studentName, setStudentName] = useState('');
             const [passInput, setPassInput] = useState('');
             const [activeModule, setActiveModule] = useState(null);
-            const [currentData, setCurrentData] = useState([]); // Se llenará abajo
+            const [currentData, setCurrentData] = useState(courseData); 
             const [currentLesson, setCurrentLesson] = useState(null);
             const [contentType, setContentType] = useState('video');
             const [showModal, setShowModal] = useState(false);
