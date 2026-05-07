@@ -148,29 +148,39 @@
             </div>`;
         throw new Error("Violación de Host: Código bloqueado.");
     }
-        
-        const { useState, useEffect } = React;
+    const { useState, useEffect } = React;
 
         const App = () => {
-            // --- ETAPA 1: ANTI-COPIADO ---
+            // --- SEGURIDAD: ANTI-COPIADO ---
             useEffect(() => {
-                const handleContextMenu = (e) => e.preventDefault();
-                document.addEventListener('contextmenu', handleContextMenu);
-
-                const handleKeyDown = (e) => {
-                    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
-                        e.preventDefault();
-                        return false;
-                    }
+                const prevent = (e) => e.preventDefault();
+                document.addEventListener('contextmenu', prevent);
+                const keys = (e) => {
+                    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) e.preventDefault();
                 };
-                document.addEventListener('keydown', handleKeyDown);
-
+                document.addEventListener('keydown', keys);
                 return () => {
-                    document.removeEventListener('contextmenu', handleContextMenu);
-                    document.removeEventListener('keydown', handleKeyDown);
+                    document.removeEventListener('contextmenu', prevent);
+                    document.removeEventListener('keydown', keys);
                 };
             }, []);
-            
+
+            const [isAuthed, setIsAuthed] = useState(false);
+            const [isDemo, setIsDemo] = useState(false);
+            const [isGK, setIsGK] = useState(false);
+            const [name, setName] = useState('');
+            const [pass, setPass] = useState('');
+            const [activeMod, setActiveMod] = useState(null);
+            const [currentLesson, setCurrentLesson] = useState(null);
+            const [contentType, setContentType] = useState('video');
+            const [showModal, setShowModal] = useState(false);
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+            const [previewVideo, setPreviewVideo] = useState(null);
+            const [completed, setCompleted] = useState(() => {
+                const s = localStorage.getItem('nexus_v5');
+                return new Set(s ? JSON.parse(s) : []);
+            });
+
         const ACCESS_PASSWORD = "Elite.2026";
         const GK_PASSWORD = "Port.2026";
         const WA_LINK = "https://wa.me/34634534700";
