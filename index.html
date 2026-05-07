@@ -148,32 +148,29 @@
             </div>`;
         throw new Error("Violación de Host: Código bloqueado.");
     }
-    // ------------------------------------
-        useEffect(() => {
-                // 1. Bloqueo de Clic Derecho
+        
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            // --- ETAPA 1: ANTI-COPIADO ---
+            useEffect(() => {
                 const handleContextMenu = (e) => e.preventDefault();
                 document.addEventListener('contextmenu', handleContextMenu);
 
-                // 2. Bloqueo de Teclas de Inspección (F12, Ctrl+U, Ctrl+Shift+I, etc.)
                 const handleKeyDown = (e) => {
-                    if (
-                        e.keyCode === 123 || // F12
-                        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || // Ctrl+Shift+I/J
-                        (e.ctrlKey && e.keyCode === 85) // Ctrl+U (Ver código fuente)
-                    ) {
+                    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
                         e.preventDefault();
                         return false;
                     }
                 };
                 document.addEventListener('keydown', handleKeyDown);
 
-                // Limpieza al cerrar la app
                 return () => {
                     document.removeEventListener('contextmenu', handleContextMenu);
                     document.removeEventListener('keydown', handleKeyDown);
                 };
             }, []);
-        const { useState, useEffect } = React;
+            
         const ACCESS_PASSWORD = "Elite.2026";
         const GK_PASSWORD = "Port.2026";
         const WA_LINK = "https://wa.me/34634534700";
