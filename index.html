@@ -236,10 +236,25 @@
             const [showModal, setShowModal] = useState(false);
             const [sidebarOpen, setSidebarOpen] = useState(false);
             const [previewVideo, setPreviewVideo] = useState(null); // Nuevo estado para previsualización
-            const [completedIds, setCompletedIds] = useState(() => {
+           const [completedIds, setCompletedIds] = useState(() => {
                 const saved = localStorage.getItem('nexus_final_v5');
                 return new Set(saved ? JSON.parse(saved) : []);
             });
+
+            useEffect(() => {
+                const prevent = (e) => e.preventDefault();
+                document.addEventListener('contextmenu', prevent);
+                const keys = (e) => {
+                    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
+                        e.preventDefault();
+                    }
+                };
+                document.addEventListener('keydown', keys);
+                return () => {
+                    document.removeEventListener('contextmenu', prevent);
+                    document.removeEventListener('keydown', keys);
+                };
+            }, []);
 
             const handleLogin = (e) => {
                 if(e) e.preventDefault();
