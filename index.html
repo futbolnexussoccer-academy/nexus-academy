@@ -134,59 +134,22 @@
 </head>
 <body>
     <div id="root"></div>
-<script type="text/babel">
-        // 1. SEGURIDAD: HOST-LOCK
-        const ALLOWED_HOSTS = ["futbolnexussoccer-academy.github.io", "localhost"]; 
-        if (!ALLOWED_HOSTS.some(host => window.location.hostname.includes(host))) {
-            document.body.innerHTML = '<div style="background:black;color:white;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:sans-serif;"><div><h1 style="color:#D4AF37;">ACCESO NO AUTORIZADO</h1><p>Dominio no oficial.</p></div></div>';
-            throw new Error("Lock");
-        }
-
+    <script type="text/babel">
+        // --- CAPA DE SEGURIDAD: HOST-LOCK ---
+    const ALLOWED_HOSTS = ["tu-usuario.github.io", "localhost"]; // Añade aquí tu dominio real
+    
+    if (!ALLOWED_HOSTS.some(host => window.location.hostname.includes(host))) {
+        document.body.innerHTML = `
+            <div style="background:black; color:white; height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
+                <div>
+                    <h1 style="color:#D4AF37;">ACCESO NO AUTORIZADO</h1>
+                    <p>Esta aplicación solo puede ejecutarse en el dominio oficial de Nexus University.</p>
+                </div>
+            </div>`;
+        throw new Error("Violación de Host: Código bloqueado.");
+    }
+    // ------------------------------------
         const { useState, useEffect } = React;
-
-        const App = () => {
-            // 2. SEGURIDAD: ANTI-COPIADO
-            useEffect(() => {
-                const prevent = (e) => e.preventDefault();
-                document.addEventListener('contextmenu', prevent);
-                const keys = (e) => {
-                    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
-                        e.preventDefault();
-                    }
-                };
-                document.addEventListener('keydown', keys);
-                return () => {
-                    document.removeEventListener('contextmenu', prevent);
-                    document.removeEventListener('keydown', keys);
-                };
-            }, []);
-
-            // 3. ESTADOS (Mantenemos tus nombres originales)
-            const [isAuthed, setIsAuthed] = useState(false);
-            const [isDemoUser, setIsDemoUser] = useState(false);
-            const [isGKEdition, setIsGKEdition] = useState(false);
-            const [studentName, setStudentName] = useState('');
-            const [passInput, setPassInput] = useState('');
-            const [activeModule, setActiveModule] = useState(null);
-            const [currentData, setCurrentData] = useState(null); 
-            const [currentLesson, setCurrentLesson] = useState(null);
-            const [contentType, setContentType] = useState('video');
-            const [showModal, setShowModal] = useState(false);
-            const [sidebarOpen, setSidebarOpen] = useState(false);
-            const [previewVideo, setPreviewVideo] = useState(null);
-            const [completedIds, setCompletedIds] = useState(() => {
-                const saved = localStorage.getItem('nexus_final_v5');
-                return new Set(saved ? JSON.parse(saved) : []);
-            });
-
-            // 4. SINCRONIZACIÓN DE DATOS (Evita pantalla negra si los vídeos están abajo)
-            useEffect(() => {
-                if (typeof courseData !== 'undefined' && !currentData) {
-                    setCurrentData(courseData);
-                }
-            }, []);
-
-            // 5. CONFIGURACIÓN
         const ACCESS_PASSWORD = "Elite.2026";
         const GK_PASSWORD = "Port.2026";
         const WA_LINK = "https://wa.me/34634534700";
